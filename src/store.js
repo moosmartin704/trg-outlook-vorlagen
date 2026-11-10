@@ -1,5 +1,5 @@
 // Speicher für Vorlagen: Firestore (bearbeitbar, mit Anmeldung) oder templates.json (nur lesen).
-import { firebaseConfig } from './config.js';
+import { firebaseConfig } from './config.js?v=3';
 
 const FB_VERSION = '10.14.1';
 const COLLECTION = 'templates';

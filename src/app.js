@@ -1,7 +1,7 @@
-import { PLACEHOLDERS, buildValues, fillHtml, fillText, mailHtml } from './placeholders.js';
-import * as store from './store.js';
-import { initHost, getContext, insertHtml, setSubject, isOutlook } from './host.js';
-import { parseSharedEmailTemplates, templateKey } from './import.js';
+import { PLACEHOLDERS, buildValues, fillHtml, fillText, mailHtml } from './placeholders.js?v=3';
+import * as store from './store.js?v=3';
+import { initHost, getContext, insertHtml, setSubject, isOutlook } from './host.js?v=3';
+import { parseSharedEmailTemplates, templateKey } from './import.js?v=3';
 
 const $ = (id) => document.getElementById(id);
 const views = { login: $('view-login'), liste: $('view-liste'), edit: $('view-edit') };

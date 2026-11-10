@@ -73,4 +73,5 @@ Im Browser fügt ein Klick den Text in die Zwischenablage ein, weil es dort kein
 - **Datenschutz:** Die Vorlagentexte liegen nur in Firestore, nicht im Repository. Im öffentlichen Repo stehen nur Code und die Beispiel-`templates.json`.
 - **Zugriff:** Die Regeln erlauben nur die in `firestore.rules` genannten Adressen. Eine feste Liste ist sicherer als „alle @trg-gmbh.de“, weil sich sonst jemand mit dem öffentlichen API-Schlüssel selbst ein Konto anlegen könnte.
 - **Mehrere Empfänger:** Namensplatzhalter beziehen sich auf den ersten Empfänger im „An“-Feld.
+- **Version hochzählen:** In `taskpane.html`, `src/app.js` und `src/store.js` hängt an den Dateinamen ein `?v=3`. Bei jeder Codeänderung die Zahl überall erhöhen, damit Outlook nie alte und neue Dateien mischt.
 - **Änderungen am Code:** Nach einem Push aktualisiert GitHub Pages die Seite automatisch. Outlook lädt sie beim nächsten Öffnen der Seitenleiste neu, das Manifest muss dafür nicht neu hochgeladen werden.
