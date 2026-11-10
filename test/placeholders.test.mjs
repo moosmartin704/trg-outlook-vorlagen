@@ -1,6 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { splitName, buildValues, fillHtml, fillText, formatDatum } from '../src/placeholders.js';
+import { splitName, buildValues, fillHtml, fillText, formatDatum, tightHtml } from '../src/placeholders.js';
+
+test('tightHtml: Absätze und Listen ohne Abstand, Leerzeilen bleiben erhalten', () => {
+  assert.equal(tightHtml('<p>A</p><p><br></p><p class="x" style="margin:9px">B</p>'),
+    '<p style="margin:0">A</p><p style="margin:0"><br></p><p style="margin:0">B</p>');
+  assert.equal(tightHtml('<ul><li>x</li></ul>'), '<ul style="margin-top:0;margin-bottom:0"><li>x</li></ul>');
+  assert.equal(tightHtml('<pre>x</pre><span>y</span>'), '<pre>x</pre><span>y</span>');
+});
 
 test('splitName: Vorname Nachname', () => {
   assert.deepEqual(splitName('Erika Muster', 'e@x.de'), { name: 'Erika Muster', vorname: 'Erika', nachname: 'Muster' });

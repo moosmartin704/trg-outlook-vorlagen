@@ -81,6 +81,17 @@ export function fillHtml(html, values) {
   return { html: out, missing: [...missing] };
 }
 
+/**
+ * Outlook-Standard: Ein Absatz ist ein einfacher Zeilenwechsel ohne zusätzlichen Abstand.
+ * Ohne diese Angabe setzt Outlook bei <p> große Abstände davor und danach.
+ * Leerzeilen entstehen, wie in Outlook üblich, durch leere Absätze (<p><br></p>).
+ */
+export function tightHtml(html) {
+  return String(html || '')
+    .replace(/<p(\s[^>]*)?>/gi, '<p style="margin:0">')
+    .replace(/<(ul|ol)(\s[^>]*)?>/gi, '<$1 style="margin-top:0;margin-bottom:0">');
+}
+
 /** Wie fillHtml, aber für Klartext (Betreff). Nicht auflösbare Platzhalter bleiben unverändert. */
 export function fillText(text, values) {
   const missing = new Set();

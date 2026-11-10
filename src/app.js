@@ -1,4 +1,4 @@
-import { PLACEHOLDERS, buildValues, fillHtml, fillText } from './placeholders.js';
+import { PLACEHOLDERS, buildValues, fillHtml, fillText, tightHtml } from './placeholders.js';
 import * as store from './store.js';
 import { initHost, getContext, insertHtml, setSubject, isOutlook } from './host.js';
 
@@ -135,7 +135,7 @@ async function insertTemplate(t, button) {
     const ctx = await getContext();
     const values = buildValues(ctx);
     const { html, missing } = fillHtml(t.body, values);
-    await insertHtml(html);
+    await insertHtml(tightHtml(html));
 
     const notes = [...missing];
     let subjectNote = '';

@@ -4,25 +4,25 @@
       "title": "Anfrage erhalten – Eingangsbestätigung",
       "folder": "Anfragen",
       "subject": "Ihre Anfrage",
-      "body": "<p>Guten Tag {{Name}},</p><p>vielen Dank für Ihre Anfrage. Wir haben sie erhalten und melden uns in den nächsten Tagen mit einem Angebot bei Ihnen.</p><p>Bei Rückfragen erreichen Sie mich jederzeit.</p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
+      "body": "<p>Guten Tag {{Name}},</p><p><br></p><p>vielen Dank für Ihre Anfrage. Wir haben sie erhalten und melden uns in den nächsten Tagen mit einem Angebot bei Ihnen.</p><p><br></p><p>Bei Rückfragen erreichen Sie mich jederzeit.</p><p><br></p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
     },
     {
       "title": "Nachfassen nach Angebot",
       "folder": "Angebote",
       "subject": "Re: {{Betreff}}",
-      "body": "<p>Guten Tag {{Name}},</p><p>ich wollte kurz nachfragen, ob Sie unser Angebot in Ruhe ansehen konnten und ob es noch offene Fragen gibt.</p><p>Gern passe ich das Angebot an oder bespreche es mit Ihnen telefonisch.</p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
+      "body": "<p>Guten Tag {{Name}},</p><p><br></p><p>ich wollte kurz nachfragen, ob Sie unser Angebot in Ruhe ansehen konnten und ob es noch offene Fragen gibt.</p><p><br></p><p>Gern passe ich das Angebot an oder bespreche es mit Ihnen telefonisch.</p><p><br></p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
     },
     {
       "title": "Terminbestätigung",
       "folder": "Termine",
       "subject": "Terminbestätigung",
-      "body": "<p>Guten Tag {{Name}},</p><p>hiermit bestätige ich unseren Termin. Falls sich etwas ändert, geben Sie mir bitte kurz Bescheid.</p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
+      "body": "<p>Guten Tag {{Name}},</p><p><br></p><p>hiermit bestätige ich unseren Termin. Falls sich etwas ändert, geben Sie mir bitte kurz Bescheid.</p><p><br></p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
     },
     {
       "title": "Dank und Abschluss",
       "folder": "Allgemein",
       "subject": "",
-      "body": "<p>Guten Tag {{Name}},</p><p>vielen Dank für Ihre Nachricht vom {{Datum}}. Damit ist die Sache für uns erledigt. Melden Sie sich gern, wenn noch etwas offen ist.</p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
+      "body": "<p>Guten Tag {{Name}},</p><p><br></p><p>vielen Dank für Ihre Nachricht vom {{Datum}}. Damit ist die Sache für uns erledigt. Melden Sie sich gern, wenn noch etwas offen ist.</p><p><br></p><p>Mit freundlichen Grüßen<br>{{MeinName}}</p>"
     }
   ]
 }
