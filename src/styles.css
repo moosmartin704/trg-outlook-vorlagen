@@ -63,11 +63,10 @@ button.gefahr { color: var(--rot); border-color: var(--rot); margin-left: auto; 
 .chip { padding: 2px 8px; border-radius: 12px; font-size: 11.5px; background: var(--hell); border: 1px solid var(--rahmen); }
 .chip[aria-selected="true"] { background: var(--rot); border-color: var(--rot); color: #fff; }
 
-select {
-  width: 100%; min-width: 0; margin: 6px 0 8px; padding: 6px 8px; font: inherit; color: var(--text);
-  border: 1px solid var(--rahmen); border-radius: 4px; background: #fff;
-}
-select:focus { outline: 2px solid var(--rot); outline-offset: -1px; }
+/* Unterordner: eingerückt unter den Hauptordnern, etwas dezenter */
+.chips.unter { margin-top: -2px; padding-left: 8px; border-left: 2px solid var(--rahmen); }
+.chips.unter .chip { background: #fff; }
+.chips.unter .chip[aria-selected="true"] { background: var(--rot); }
 .import { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--rahmen); }
 .import .karte { margin-top: 8px; }
 .liste { list-style: none; margin: 0; padding: 0; }

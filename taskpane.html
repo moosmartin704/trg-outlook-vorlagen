@@ -32,7 +32,8 @@
     <!-- Liste -->
     <section id="view-liste" hidden>
       <input id="suche" type="search" placeholder="Vorlagen durchsuchen …" aria-label="Vorlagen durchsuchen">
-      <select id="ordner" aria-label="Ordner" hidden></select>
+      <div id="ordner" class="chips" role="tablist" aria-label="Ordner" hidden></div>
+      <div id="unterordner" class="chips unter" role="tablist" aria-label="Unterordner" hidden></div>
       <ul id="liste" class="liste"></ul>
       <p id="leer" class="hinweis" hidden></p>
       <button id="btn-beispiele" class="sekundaer" hidden>Beispielvorlagen anlegen</button>

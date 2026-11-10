@@ -6,7 +6,7 @@ import { parseSharedEmailTemplates, templateKey } from './import.js';
 const $ = (id) => document.getElementById(id);
 const views = { login: $('view-login'), liste: $('view-liste'), edit: $('view-edit') };
 
-const state = { templates: [], folder: '', query: '', user: null, editing: null, loading: false };
+const state = { templates: [], folder: '', sub: '', query: '', user: null, editing: null, loading: false };
 
 // ---------- Hilfen ----------
 
@@ -53,25 +53,51 @@ export function sanitize(html) {
 function visibleTemplates() {
   const q = state.query.trim().toLowerCase();
   return state.templates.filter((t) => {
-    if (state.folder && t.folder !== state.folder) return false;
+    if (!inSelectedFolder(t.folder)) return false;
     if (!q) return true;
     return (t.title + ' ' + t.folder + ' ' + t.subject + ' ' + plain(t.body)).toLowerCase().includes(q);
   });
 }
 
+const SEP = ' / ';
+
+function fillChips(box, names, selected, onPick) {
+  box.replaceChildren();
+  for (const name of names) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', String(selected === name));
+    b.textContent = name || 'Alle';
+    b.addEventListener('click', () => onPick(name));
+    box.append(b);
+  }
+}
+
+/** Ordner als Buttons: oben die Hauptordner, darunter (bei Auswahl) die Unterordner, z. B. „Deutsch“ und „Englisch“. */
 function renderFolders() {
   const folders = [...new Set(state.templates.map((t) => t.folder).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'de'));
-  if (state.folder && !folders.includes(state.folder)) state.folder = '';
-  const select = $('ordner');
-  select.hidden = folders.length === 0;
-  select.replaceChildren(
-    ...['', ...folders].map((name) => Object.assign(document.createElement('option'), { value: name, textContent: name || 'Alle Ordner' })),
-  );
-  select.value = state.folder;
+  const tops = [...new Set(folders.map((f) => f.split(SEP)[0]))];
+  if (state.folder && !tops.includes(state.folder)) { state.folder = ''; state.sub = ''; }
+  const prefix = state.folder + SEP;
+  const subs = state.folder
+    ? [...new Set(folders.filter((f) => f.startsWith(prefix)).map((f) => f.slice(prefix.length)))]
+    : [];
+  if (state.sub && !subs.includes(state.sub)) state.sub = '';
+
+  fillChips($('ordner'), ['', ...tops], state.folder, (name) => { state.folder = name; state.sub = ''; renderList(); });
+  fillChips($('unterordner'), ['', ...subs], state.sub, (name) => { state.sub = name; renderList(); });
+  $('ordner').hidden = tops.length === 0;
+  $('unterordner').hidden = subs.length === 0;
   $('ordner-vorschlaege').replaceChildren(...folders.map((f) => Object.assign(document.createElement('option'), { value: f })));
 }
 
-$('ordner').addEventListener('change', (e) => { state.folder = e.target.value; renderList(); });
+function inSelectedFolder(folder) {
+  if (!state.folder) return true;
+  const path = state.folder + (state.sub ? SEP + state.sub : '');
+  return folder === path || folder.startsWith(path + SEP);
+}
 
 function renderList() {
   renderFolders();
