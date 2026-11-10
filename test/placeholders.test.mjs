@@ -1,12 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { splitName, buildValues, fillHtml, fillText, formatDatum, tightHtml } from '../src/placeholders.js';
+import { splitName, buildValues, fillHtml, fillText, formatDatum, tightHtml, mailHtml, MAIL_FONT } from '../src/placeholders.js';
 
-test('tightHtml: Absätze und Listen ohne Abstand, Leerzeilen bleiben erhalten', () => {
+test('Schrift ist Arial 10 pt', () => {
+  assert.equal(MAIL_FONT, 'font-family:Arial,Helvetica,sans-serif;font-size:10pt');
+});
+
+test('tightHtml: Absätze und Listen ohne Abstand, Leerzeilen bleiben erhalten, Arial 10 pt', () => {
   assert.equal(tightHtml('<p>A</p><p><br></p><p class="x" style="margin:9px">B</p>'),
-    '<p style="margin:0">A</p><p style="margin:0"><br></p><p style="margin:0">B</p>');
-  assert.equal(tightHtml('<ul><li>x</li></ul>'), '<ul style="margin-top:0;margin-bottom:0"><li>x</li></ul>');
+    `<p style="margin:0;${MAIL_FONT}">A</p><p style="margin:0;${MAIL_FONT}"><br></p><p style="margin:0;${MAIL_FONT}">B</p>`);
+  assert.equal(tightHtml('<ul><li>x</li></ul>'),
+    `<ul style="margin-top:0;margin-bottom:0;${MAIL_FONT}"><li style="${MAIL_FONT}">x</li></ul>`);
   assert.equal(tightHtml('<pre>x</pre><span>y</span>'), '<pre>x</pre><span>y</span>');
+});
+
+test('mailHtml: Umschlag mit Arial 10 pt, auch für Text ohne Absatz', () => {
+  const out = mailHtml('nur Text');
+  assert.equal(out, `<div style="${MAIL_FONT}">nur Text</div>`);
 });
 
 test('splitName: Vorname Nachname', () => {

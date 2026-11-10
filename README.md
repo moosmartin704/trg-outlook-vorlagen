@@ -6,6 +6,7 @@ Gemeinsame E-Mail-Vorlagen für Outlook (Windows, Mac, neues Outlook, Outlook im
 
 - Vorlagen suchen, nach Ordner filtern, mit einem Klick in die Nachricht einfügen (formatiert, an der Cursorposition).
 - Platzhalter: `{{Name}}`, `{{Vorname}}`, `{{Nachname}}` (vom ersten Empfänger), `{{Betreff}}`, `{{MeinName}}`, `{{Datum}}`. Nicht auflösbare Platzhalter bleiben stehen und werden gelb markiert.
+- Einfügen immer in **Arial, 10 pt** mit Outlook-Standardabständen (Zeilenwechsel ohne Zusatzabstand, Leerzeile = leerer Absatz), unabhängig von der Schrift der Nachricht.
 - Optionaler Betreff je Vorlage; er wird nur gesetzt, wenn der Betreff der Nachricht noch leer ist.
 - Vorlagen im Add-in anlegen, ändern, löschen (Anmeldung nötig).
 

@@ -88,8 +88,17 @@ export function fillHtml(html, values) {
  */
 export function tightHtml(html) {
   return String(html || '')
-    .replace(/<p(\s[^>]*)?>/gi, '<p style="margin:0">')
-    .replace(/<(ul|ol)(\s[^>]*)?>/gi, '<$1 style="margin-top:0;margin-bottom:0">');
+    .replace(/<p(\s[^>]*)?>/gi, `<p style="margin:0;${MAIL_FONT}">`)
+    .replace(/<(ul|ol)(\s[^>]*)?>/gi, `<$1 style="margin-top:0;margin-bottom:0;${MAIL_FONT}">`)
+    .replace(/<li(\s[^>]*)?>/gi, `<li style="${MAIL_FONT}">`);
+}
+
+/** Feste Schrift für alle eingefügten Vorlagen: Arial, 10 pt. */
+export const MAIL_FONT = 'font-family:Arial,Helvetica,sans-serif;font-size:10pt';
+
+/** Fertiges HTML für die Nachricht: Standardabstände und Arial 10 pt, auch für Text außerhalb von Absätzen. */
+export function mailHtml(html) {
+  return `<div style="${MAIL_FONT}">${tightHtml(html)}</div>`;
 }
 
 /** Wie fillHtml, aber für Klartext (Betreff). Nicht auflösbare Platzhalter bleiben unverändert. */
