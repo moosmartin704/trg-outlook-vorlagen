@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Vorlage. Die fertige manifest.xml entsteht mit: node scripts/make-manifest.mjs https://<konto>.github.io/<repo> -->
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+  xsi:type="MailApp">
+
+  <Id>6f1c2a4e-8b3d-4c57-9a10-2e5d7b9c4f38</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>TRG Handelsvertretung GmbH</ProviderName>
+  <DefaultLocale>de-DE</DefaultLocale>
+  <DisplayName DefaultValue="TRG Vorlagen"/>
+  <Description DefaultValue="Gemeinsame E-Mail-Vorlagen mit Platzhaltern für Name, Datum und Betreff."/>
+  <IconUrl DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/"/>
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.3"/>
+    </Sets>
+  </Requirements>
+
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/taskpane.html"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.3">
+        <bt:Set Name="Mailbox"/>
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="TrgVorlagenGroup">
+                <Label resid="GroupLabel"/>
+                <Control xsi:type="Button" id="TrgVorlagenButton">
+                  <Label resid="ButtonLabel"/>
+                  <Supertip>
+                    <Title resid="ButtonLabel"/>
+                    <Description resid="ButtonDesc"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon16"/>
+                    <bt:Image size="32" resid="Icon32"/>
+                    <bt:Image size="80" resid="Icon80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="PaneUrl"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon16" DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/assets/icon-16.png"/>
+        <bt:Image id="Icon32" DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/assets/icon-32.png"/>
+        <bt:Image id="Icon80" DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="PaneUrl" DefaultValue="https://moosmartin704.github.io/trg-outlook-vorlagen/taskpane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GroupLabel" DefaultValue="TRG"/>
+        <bt:String id="ButtonLabel" DefaultValue="Vorlagen"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="ButtonDesc" DefaultValue="Öffnet die gemeinsamen E-Mail-Vorlagen und fügt sie in die Nachricht ein."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
