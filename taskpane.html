@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>TRG Vorlagen</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+  <header class="kopf">
+    <h1>Vorlagen</h1>
+    <div class="kopf-aktionen">
+      <button id="btn-neu" class="icon-btn" title="Neue Vorlage" hidden>+ Neu</button>
+      <button id="btn-user" class="text-btn" title="Abmelden" hidden></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Anmeldung -->
+    <section id="view-login" hidden>
+      <form id="form-login" class="karte">
+        <p class="hinweis">Bitte mit dem Vorlagen-Konto anmelden.</p>
+        <label>E-Mail<input id="login-mail" type="email" autocomplete="username" required></label>
+        <label>Passwort<input id="login-pw" type="password" autocomplete="current-password" required></label>
+        <p id="login-fehler" class="fehler" role="alert" hidden></p>
+        <button class="primaer" type="submit">Anmelden</button>
+      </form>
+    </section>
+
+    <!-- Liste -->
+    <section id="view-liste" hidden>
+      <input id="suche" type="search" placeholder="Vorlagen durchsuchen …" aria-label="Vorlagen durchsuchen">
+      <div id="ordner" class="chips" role="tablist" aria-label="Ordner"></div>
+      <ul id="liste" class="liste"></ul>
+      <p id="leer" class="hinweis" hidden></p>
+      <button id="btn-beispiele" class="sekundaer" hidden>Beispielvorlagen anlegen</button>
+    </section>
+
+    <!-- Bearbeiten -->
+    <section id="view-edit" hidden>
+      <form id="form-edit" class="karte">
+        <label>Titel<input id="e-titel" required maxlength="120"></label>
+        <label>Ordner<input id="e-ordner" list="ordner-vorschlaege" maxlength="60" placeholder="z. B. Angebote"></label>
+        <datalist id="ordner-vorschlaege"></datalist>
+        <label>Betreff (optional – wird nur gesetzt, wenn der Betreff leer ist)<input id="e-betreff" maxlength="200"></label>
+
+        <div class="label-zeile">Text</div>
+        <div class="toolbar" role="toolbar" aria-label="Formatierung">
+          <button type="button" data-cmd="bold" title="Fett"><b>F</b></button>
+          <button type="button" data-cmd="italic" title="Kursiv"><i>K</i></button>
+          <button type="button" data-cmd="underline" title="Unterstrichen"><u>U</u></button>
+          <button type="button" data-cmd="insertUnorderedList" title="Aufzählung">• Liste</button>
+          <button type="button" data-cmd="createLink" title="Link">Link</button>
+          <button type="button" data-cmd="removeFormat" title="Formatierung entfernen">Tx</button>
+        </div>
+        <div id="link-zeile" class="aktionen" hidden>
+          <input id="link-url" type="url" placeholder="https://…" aria-label="Link-Adresse">
+          <button type="button" id="link-ok" class="sekundaer">OK</button>
+        </div>
+        <div id="e-text" class="editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Text der Vorlage"></div>
+
+        <div class="label-zeile">Platzhalter einfügen</div>
+        <div id="platzhalter" class="chips"></div>
+
+        <p id="e-fehler" class="fehler" role="alert" hidden></p>
+        <div class="aktionen">
+          <button class="primaer" type="submit">Speichern</button>
+          <button id="e-abbrechen" class="sekundaer" type="button">Abbrechen</button>
+          <button id="e-loeschen" class="gefahr" type="button" hidden>Löschen</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

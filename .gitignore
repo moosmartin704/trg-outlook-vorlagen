@@ -1,0 +1,3 @@
+.DS_Store
+node_modules/
+# manifest.xml wird mit make-manifest.mjs erzeugt und enthält deine Adresse; bewusst eingecheckt, damit Pages sie ausliefert

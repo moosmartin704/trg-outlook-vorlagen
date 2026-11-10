@@ -1,0 +1,13 @@
+{
+  "name": "trg-outlook-vorlagen",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Outlook-Add-in: gemeinsame E-Mail-Vorlagen der TRG Handelsvertretung GmbH",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "icons": "python3 scripts/make-icons.py",
+    "manifest": "node scripts/make-manifest.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}

@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Nur die beiden namentlich eingetragenen Konten dürfen Vorlagen lesen und ändern.
+    // ANPASSEN: Die Adressen unten durch eure echten @trg-gmbh.de-Adressen ersetzen.
+    //
+    // Warum eine feste Liste statt "alle @trg-gmbh.de"? Wer den (öffentlichen) API-Schlüssel kennt, könnte sich
+    // sonst selbst ein Konto mit einer beliebigen Adresse anlegen. Existieren die Konten schon, ist das für
+    // diese Adressen nicht mehr möglich.
+    function erlaubt() {
+      return request.auth != null
+        && request.auth.token.email in [
+          'vorname.nachname@trg-gmbh.de',
+          'kollegin@trg-gmbh.de'
+        ];
+    }
+
+    match /templates/{id} {
+      allow read, write: if erlaubt();
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
