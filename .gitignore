@@ -1,3 +1,6 @@
 .DS_Store
 node_modules/
 # manifest.xml wird mit make-manifest.mjs erzeugt und enthält deine Adresse; bewusst eingecheckt, damit Pages sie ausliefert
+
+# Exporte aus Shared Email Templates enthalten echte Geschäftstexte: nie ins öffentliche Repo
+import/

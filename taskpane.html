@@ -32,10 +32,22 @@
     <!-- Liste -->
     <section id="view-liste" hidden>
       <input id="suche" type="search" placeholder="Vorlagen durchsuchen …" aria-label="Vorlagen durchsuchen">
-      <div id="ordner" class="chips" role="tablist" aria-label="Ordner"></div>
+      <select id="ordner" aria-label="Ordner" hidden></select>
       <ul id="liste" class="liste"></ul>
       <p id="leer" class="hinweis" hidden></p>
       <button id="btn-beispiele" class="sekundaer" hidden>Beispielvorlagen anlegen</button>
+
+      <div id="import-bereich" class="import" hidden>
+        <button id="btn-import" class="sekundaer" type="button">Aus Shared Email Templates importieren …</button>
+        <input id="import-datei" type="file" accept=".xml,text/xml,application/xml" hidden>
+        <div id="import-box" class="karte" hidden>
+          <p id="import-text" class="hinweis"></p>
+          <div class="aktionen">
+            <button id="import-start" class="primaer" type="button">Importieren</button>
+            <button id="import-abbrechen" class="sekundaer" type="button">Abbrechen</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Bearbeiten -->

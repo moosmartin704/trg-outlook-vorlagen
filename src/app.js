@@ -1,6 +1,7 @@
 import { PLACEHOLDERS, buildValues, fillHtml, fillText, mailHtml } from './placeholders.js';
 import * as store from './store.js';
 import { initHost, getContext, insertHtml, setSubject, isOutlook } from './host.js';
+import { parseSharedEmailTemplates, templateKey } from './import.js';
 
 const $ = (id) => document.getElementById(id);
 const views = { login: $('view-login'), liste: $('view-liste'), edit: $('view-edit') };
@@ -60,21 +61,17 @@ function visibleTemplates() {
 
 function renderFolders() {
   const folders = [...new Set(state.templates.map((t) => t.folder).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'de'));
-  const box = $('ordner');
-  box.replaceChildren();
-  box.hidden = folders.length === 0;
-  for (const name of ['', ...folders]) {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'chip';
-    b.setAttribute('role', 'tab');
-    b.setAttribute('aria-selected', String(state.folder === name));
-    b.textContent = name || 'Alle';
-    b.addEventListener('click', () => { state.folder = name; renderList(); });
-    box.append(b);
-  }
+  if (state.folder && !folders.includes(state.folder)) state.folder = '';
+  const select = $('ordner');
+  select.hidden = folders.length === 0;
+  select.replaceChildren(
+    ...['', ...folders].map((name) => Object.assign(document.createElement('option'), { value: name, textContent: name || 'Alle Ordner' })),
+  );
+  select.value = state.folder;
   $('ordner-vorschlaege').replaceChildren(...folders.map((f) => Object.assign(document.createElement('option'), { value: f })));
 }
+
+$('ordner').addEventListener('change', (e) => { state.folder = e.target.value; renderList(); });
 
 function renderList() {
   renderFolders();
@@ -111,6 +108,7 @@ function renderList() {
   else if (!state.templates.length) leer.textContent = store.canEdit ? 'Noch keine Vorlagen. Lege mit „+ Neu“ die erste an.' : 'Keine Vorlagen vorhanden.';
   else leer.textContent = 'Keine Treffer.';
   $('btn-beispiele').hidden = !(store.canEdit && !state.loading && state.templates.length === 0);
+  $('import-bereich').hidden = !(store.canEdit && !state.loading);
 }
 
 async function refresh() {
@@ -298,6 +296,64 @@ $('btn-beispiele').addEventListener('click', async (e) => {
   } catch (ex) {
     toast('Import fehlgeschlagen: ' + (ex.code || ex.message), 'warn');
   } finally { e.currentTarget.disabled = false; }
+});
+
+// ---------- Import aus Shared Email Templates ----------
+
+let importPlan = null;
+
+function resetImport() {
+  importPlan = null;
+  $('import-box').hidden = true;
+  $('import-datei').value = '';
+}
+
+$('btn-import').addEventListener('click', () => $('import-datei').click());
+$('import-abbrechen').addEventListener('click', resetImport);
+
+$('import-datei').addEventListener('change', async (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  try {
+    const { team, templates } = parseSharedEmailTemplates(await file.text());
+    if (!templates.length) { toast('In dieser Datei wurden keine Vorlagen gefunden. Bitte den XML-Export wählen.', 'warn'); resetImport(); return; }
+    const vorhanden = new Set(state.templates.map(templateKey));
+    const neu = templates.filter((t) => !vorhanden.has(templateKey(t)));
+    importPlan = neu;
+    const folders = new Set(neu.map((t) => t.folder).filter(Boolean)).size;
+    $('import-text').textContent =
+      `${templates.length} Vorlagen${team ? ' aus „' + team + '“' : ''} gefunden. ` +
+      (neu.length ? `${neu.length} werden neu angelegt (${folders} Ordner)` : 'Alle sind schon vorhanden') +
+      (templates.length - neu.length ? `, ${templates.length - neu.length} übersprungen, weil Titel und Ordner schon existieren.` : '.');
+    $('import-start').hidden = neu.length === 0;
+    $('import-box').hidden = false;
+  } catch (ex) {
+    toast('Datei konnte nicht gelesen werden: ' + ex.message, 'warn');
+    resetImport();
+  }
+});
+
+$('import-start').addEventListener('click', async (e) => {
+  if (!importPlan || !importPlan.length) return;
+  const plan = importPlan;
+  e.currentTarget.disabled = true;
+  $('import-abbrechen').disabled = true;
+  let done = 0;
+  try {
+    for (const t of plan) {
+      await store.saveTemplate({ ...t, id: undefined });
+      done += 1;
+      $('import-text').textContent = `Importiere … ${done} von ${plan.length}`;
+    }
+    toast(`${done} Vorlagen importiert.`, 'ok');
+  } catch (ex) {
+    toast(`Import bei Vorlage ${done + 1} von ${plan.length} abgebrochen: ` + (ex.code || ex.message), 'warn');
+  } finally {
+    e.currentTarget.disabled = false;
+    $('import-abbrechen').disabled = false;
+    resetImport();
+    await refresh();
+  }
 });
 
 // ---------- Start ----------
