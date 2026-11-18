@@ -8,7 +8,7 @@
   xsi:type="MailApp">
 
   <Id>6f1c2a4e-8b3d-4c57-9a10-2e5d7b9c4f38</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.1.0.0</Version>
   <ProviderName>TRG Handelsvertretung GmbH</ProviderName>
   <DefaultLocale>de-DE</DefaultLocale>
   <DisplayName DefaultValue="TRG Vorlagen"/>
@@ -92,5 +92,62 @@
         <bt:String id="ButtonDesc" DefaultValue="Öffnet die gemeinsamen E-Mail-Vorlagen und fügt sie in die Nachricht ein."/>
       </bt:LongStrings>
     </Resources>
+
+    <!-- Neuere Outlook-Versionen (ab Mailbox 1.8) nutzen diesen Block. SupportsSharedFolders macht das Add-in auch in
+         geteilten Postfächern verfügbar, die in einem eigenen Fenster geöffnet sind („Anderes Postfach öffnen“),
+         und in Outlook für Mac. Ältere Versionen fallen auf den Block oben zurück. -->
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.8">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <SupportsSharedFolders>true</SupportsSharedFolders>
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="TrgVorlagenGroup">
+                  <Label resid="GroupLabel"/>
+                  <Control xsi:type="Button" id="TrgVorlagenButton">
+                    <Label resid="ButtonLabel"/>
+                    <Supertip>
+                      <Title resid="ButtonLabel"/>
+                      <Description resid="ButtonDesc"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon16"/>
+                      <bt:Image size="32" resid="Icon32"/>
+                      <bt:Image size="80" resid="Icon80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="PaneUrl"/>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon16" DefaultValue="{{BASE_URL}}/assets/icon-16.png"/>
+          <bt:Image id="Icon32" DefaultValue="{{BASE_URL}}/assets/icon-32.png"/>
+          <bt:Image id="Icon80" DefaultValue="{{BASE_URL}}/assets/icon-80.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="PaneUrl" DefaultValue="{{BASE_URL}}/taskpane.html"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="TRG"/>
+          <bt:String id="ButtonLabel" DefaultValue="Vorlagen"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="ButtonDesc" DefaultValue="Öffnet die gemeinsamen E-Mail-Vorlagen und fügt sie in die Nachricht ein."/>
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
